@@ -419,7 +419,7 @@ static NSString* versionNumberStr()
 static char *myBasename;
 static void printUsage()
 {
-    Printf(@"usage: %s [-vlesyF] <file> [<file> ...]\n", myBasename);
+    Printf(@"usage: %s [-vhlesyF] <file> [<file> ...]\n", myBasename);
     Printf(@"\n"
            @"  Move files/folders to the trash.\n"
            @"\n"
@@ -439,11 +439,13 @@ static void printUsage()
            @"  -s  Securely empty the trash (asks for confirmation)\n"
            @"  -y  Skips the confirmation prompt for -e and -s.\n"
            @"      CAUTION: Deletes permanently instantly.\n"
+           @"  -h  Display parameter information.\n"
            @"\n"
            @"  Options supported by `rm` are silently accepted.\n"
            @"\n"
            @"Version %@\n"
-           @"Copyright (c) 2010–2018 Ali Rantakari, http://hasseg.org/trash\n"
+           @"Founder: Ali Rantakari, http://hasseg.org/trash\n"
+           @"Modified by: Black-Hole, https://www.bugs.cc\n"
            @"\n", versionNumberStr());
 }
 
@@ -458,7 +460,6 @@ int main(int argc, char *argv[])
 
     if (argc == 1)
     {
-        printUsage();
         return 0;
     }
 
@@ -500,6 +501,9 @@ int main(int argc, char *argv[])
                 // Silently accept `rm`'s arguments
                 break;
             case '?':
+            case 'h':
+                printUsage();
+                return 0;
             default:
                 printUsage();
                 return 1;
@@ -534,8 +538,6 @@ int main(int argc, char *argv[])
 
         if (!fileExistsAtPath(path))
         {
-            PrintfErr(@"trash: %s: path does not exist\n", argv[i]);
-            exitValue = 1;
             continue;
         }
 
