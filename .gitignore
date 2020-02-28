@@ -3,3 +3,4 @@ hobo*
 *.plist
 trash
 test
+.DS_Store
